@@ -1,4 +1,4 @@
-package jpabook.jpashop.member;
+package jpabook.jpashop.domain.member;
 
 import org.springframework.stereotype.Repository;
 
