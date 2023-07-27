@@ -37,7 +37,7 @@ public class MemberService {
     }
 
     // 단일 회원 조회
-    public Member findOne(Long memberId) {
+    public Member findOneMember(Long memberId) {
         return memberRepository.findOne(memberId);
     }
 
