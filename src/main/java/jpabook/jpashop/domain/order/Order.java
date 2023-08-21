@@ -27,6 +27,11 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
+    private LocalDateTime orderDate;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -37,11 +42,6 @@ public class Order {
     @OneToOne(fetch = LAZY, cascade = ALL)
     @JoinColumn(name = "delivery_id")// 조회를 많이 하는 쪽을 연관관계의 주인으로 하는것을 추천
     private Delivery delivery;
-
-    private LocalDateTime orderDate;
-
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
 
     // 연관관계 편의 메서드 3개
     public void setMember(Member member) {
