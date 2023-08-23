@@ -1,7 +1,7 @@
 package jpabook.jpashop;
 
 import jpabook.jpashop.domain.member.Member;
-import jpabook.jpashop.repository.MemberRepository;
+import jpabook.jpashop.repository.MemberRepositoryOld;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class MemberRepositoryTest {
+class MemberRepositoryOldTest {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberRepositoryOld memberRepositoryOld;
 
     @Test
     @Transactional
@@ -23,8 +23,8 @@ class MemberRepositoryTest {
         member.setName("memberA");
 
         // when
-        memberRepository.save(member);
-        Member findMember = memberRepository.findOne(member.getId());
+        memberRepositoryOld.save(member);
+        Member findMember = memberRepositoryOld.findOne(member.getId());
 
         // then
         assertThat(findMember.getId()).isEqualTo(member.getId());
