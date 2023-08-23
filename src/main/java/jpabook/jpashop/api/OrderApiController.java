@@ -9,6 +9,7 @@ import jpabook.jpashop.repository.order.query.OrderFlatResponse;
 import jpabook.jpashop.repository.order.query.OrderItemQueryResponse;
 import jpabook.jpashop.repository.order.query.OrderQueryRepository;
 import jpabook.jpashop.repository.order.query.OrderQueryResponse;
+import jpabook.jpashop.service.query.OrderQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +27,7 @@ public class OrderApiController {
 
     private final OrderRepository orderRepository;
     private final OrderQueryRepository orderQueryRepository;
+    private final OrderQueryService orderQueryService;
 
     @GetMapping("/api/v1/orders") // 엔티티 직접 노출 문제
     public List<Order> ordersV1() {
@@ -57,15 +59,12 @@ public class OrderApiController {
      * 의도와 다른 결과 발생 -> 중복 데이터(ex.주문 2개인데 4개로)
      * distinct 키워드 활용하여 중복 데이터 문제 해결
      * but,페이징 불가능(메모리에서 페이징 -> 매우 위험!)
+     * OSIV = false 설정 때문에 Lazy 로딩 초기화 로직 트랜잭션 범위 안으로 집어넣음
      */
 
     @GetMapping("/api/v3/orders")
     public List<OrderResponse> ordersV3() {
-        List<Order> orders = orderRepository.findAllWithItem();
-
-        return orders.stream()
-                .map(OrderResponse::toResponse)
-                .collect(Collectors.toList());
+        return orderQueryService.ordersV3();
     }
 
     /**
